@@ -1,0 +1,24 @@
+<h1>New Meetup Form</h1>
+
+<% if !@errors.empty? %>
+<ul>
+  <%  @errors.each do |error| %>
+    <li><%= error %> </li>
+  <% end %>
+</ul>
+<% end %>
+
+<form action="/meetups" method="post">
+
+  <label for="name">Name: </label>
+  <input type="text" name="name" value="<%= @new_name %>">
+
+  <label for="name">Description: </label>
+  <input type="text" name="description" value="<%= @new_description %>">
+
+  <label for="location">Location: </label>
+  <input type="text" name="location" value="<%= @new_location %>">
+
+  <label for="submit">Submit</label>
+  <input type="submit" name="submit" value="Submit">
+</form>

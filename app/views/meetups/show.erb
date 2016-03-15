@@ -1,0 +1,17 @@
+<% if @success %>
+  <%= @success %>
+<% end %>
+
+<h1> <%= @meetup.name %> </h1>
+<ul>
+  <li>What we're all about: <%= @meetup.description %></li>
+  <li>Where we'll be meeting: <%= @meetup.location %></li>
+  <li>Awesome founder: <%= @meetup.creator.username %></li>
+</ul>
+
+<h3>Attendees:</h3>
+<ul>
+  <% @attendees.each do |attendee| %>
+    <li> <img src="<%= attendee.avatar_url %>" alt="avatar" style="width:50px;height:50px;" /> <%= attendee.username %> </li>
+  <% end %>
+</ul>

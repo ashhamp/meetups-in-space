@@ -19,11 +19,16 @@ feature "User visits meetups index" do
     location: "chinatown",
     creator: user
     )
+    # binding.pry
 
     visit '/meetups'
 
-    expect(page).to have_content "launchers who lunch"
+    click_on "launchers who lunch"
+    expect(page).to have_content (meetup.name)
+    expect(page).to have_content (meetup.description)
+    expect(page).to have_content (meetup.location)
+    expect(page).to have_content (meetup.creator.username)
   end
 
-  # test for alphabetical listing later
+
 end

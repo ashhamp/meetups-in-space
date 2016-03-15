@@ -36,3 +36,43 @@ get '/meetups' do
 
   erb :'meetups/index'
 end
+get '/meetups/new' do
+  @errors = []
+
+  erb :'meetups/new'
+end
+
+get '/meetups/:id' do
+  @meetup = Meetup.find(params[:id])
+  # binding.pry
+  @attendees = @meetup.users
+  erb :'meetups/show'
+end
+
+post '/meetups' do
+  # binding.pry
+  # user = User.find_or_create_from_omniauth(env['omniauth.auth'])
+  @success = nil
+  @creator_id = session[:user_id]
+  @new_name = params[:name]
+  @new_description = params[:description]
+  @new_location = params[:location]
+# binding.pry
+  @errors = []
+  if session[:user_id].nil?
+    @errors << "user must be signed in to make a new meetup"
+  end
+  if @new_name.strip.empty? || @new_description.strip.empty? ||    @new_location.strip.empty?
+    @errors << "user must fill all fields of form"
+  end
+
+  if !@errors.empty?
+    erb :'meetups/new'
+  else
+    @success = "Event created!"
+    @meetup = Meetup.create(name: @new_name, description: @new_description, location: @new_location, creator_id: @creator_id)
+    redirect "/meetups/#{@meetup.id}"
+    # add creator to user list?
+  end
+
+end
