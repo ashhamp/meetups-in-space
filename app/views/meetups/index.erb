@@ -1,4 +1,8 @@
 <h1>Meetups</h1>
-<% @meetups.each do |meetup| %>
-  <%= meetup.name %>
+<ul>
+  <% @meetups.each do |meetup| %>
+  <li>
+<%= meetup.name %>
+  </li>
   <% end %>
+</ul>
