@@ -2,6 +2,10 @@
   <%= @success %>
 <% end %>
 
+<% if @message %>
+  <%= @message %>
+<% end %>
+
 <h1> <%= @meetup.name %> </h1>
 <ul>
   <li>What we're all about: <%= @meetup.description %></li>
@@ -15,3 +19,11 @@
     <li> <img src="<%= attendee.avatar_url %>" alt="avatar" style="width:50px;height:50px;" /> <%= attendee.username %> </li>
   <% end %>
 </ul>
+
+<% if @show_button %>
+<form action="/meetups/<%= @meetup.id %>" method="post">
+
+
+  <input type="submit" name="submit" value="Join Group">
+</form>
+<% end %>

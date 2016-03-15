@@ -44,9 +44,28 @@ end
 
 get '/meetups/:id' do
   @meetup = Meetup.find(params[:id])
-  # binding.pry
   @attendees = @meetup.users
+  @show_button = nil
+  @member = @attendees.where(id: session[:user_id])
+  @message = nil
+
+  if @member.empty? || session[:user_id].nil?
+    @show_button = true
+  end
+
+
+  # if !session[:user_id].nil? && !@member.nil?
+  #   @show_button = nil
+  # end
+
   erb :'meetups/show'
+end
+
+post '/meetups/:id' do
+  MeetupsUser.create(user_id: session[:user_id], meetup_id: params[:id])
+  @message = "You've joined!"
+  # erb :'/meetups/show'
+  redirect "/meetups/#{params[:id]}"
 end
 
 post '/meetups' do
