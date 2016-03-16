@@ -32,7 +32,11 @@ get '/sign_out' do
 end
 
 get '/meetups' do
+  current_user
   @meetups = Meetup.all.order(:name)
+  # @success_message = session[:success_message]
+
+  # binding.pry
 
   erb :'meetups/index'
 end
@@ -43,6 +47,10 @@ get '/meetups/new' do
 end
 
 get '/meetups/:id' do
+
+  @success = session[:success_message]
+  session[:success_message] = nil
+
   @meetup = Meetup.find(params[:id])
   @attendees = @meetup.users
   @show_button = nil
@@ -53,45 +61,54 @@ get '/meetups/:id' do
     @show_button = true
   end
 
-
-  # if !session[:user_id].nil? && !@member.nil?
-  #   @show_button = nil
-  # end
-
   erb :'meetups/show'
 end
 
 post '/meetups/:id' do
-  MeetupsUser.create(user_id: session[:user_id], meetup_id: params[:id])
-  @message = "You've joined!"
-  # erb :'/meetups/show'
+  unless session[:user_id].nil?
+    MeetupsUser.create(user_id: session[:user_id], meetup_id: params[:id])
+    session[:success_message] = "You've joined!"
+  else
+    session[:success_message] = "Please sign in to join group"
+  end
+
   redirect "/meetups/#{params[:id]}"
 end
 
 post '/meetups' do
-  # binding.pry
-  # user = User.find_or_create_from_omniauth(env['omniauth.auth'])
   @success = nil
   @creator_id = session[:user_id]
   @new_name = params[:name]
   @new_description = params[:description]
   @new_location = params[:location]
-# binding.pry
-  @errors = []
+
+  @errors = ""
   if session[:user_id].nil?
-    @errors << "user must be signed in to make a new meetup"
+    @errors += "user must be signed in to make a new meetup\n"
   end
-  if @new_name.strip.empty? || @new_description.strip.empty? ||    @new_location.strip.empty?
-    @errors << "user must fill all fields of form"
+  @meetup = Meetup.new(name: @new_name, description: @new_description, location: @new_location, creator_id: @creator_id)
+
+  if @meetup.valid?
+    @meetup.save
+  else
+    @meetup.errors.messages.each do |column, msg|
+      @errors += "#{column.to_s}: "
+      msg.each_with_index do |s, index|
+        @errors += "#{s}"
+        if (index + 1) < msg.size
+          @errors += ","
+        end
+      end
+      @errors += "\n"
+    end
   end
+
 
   if !@errors.empty?
     erb :'meetups/new'
   else
-    @success = "Event created!"
-    @meetup = Meetup.create(name: @new_name, description: @new_description, location: @new_location, creator_id: @creator_id)
+    session[:success_message] = "Event created!"
     redirect "/meetups/#{@meetup.id}"
-    # add creator to user list?
   end
 
 end

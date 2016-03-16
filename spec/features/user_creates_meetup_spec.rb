@@ -22,16 +22,21 @@ feature "User can add new meetup if signed in" do
 
     visit '/'
     sign_in_as user
+
+
     click_on "Create a New Meetup"
+
 
     fill_in "name", with: "Dumbledore's Army"
     fill_in "description", with: "underground defense against the dark arts"
     fill_in "location", with: "room of requirement"
+
     click_on "Submit"
 
+
     expect(page).to have_content "Dumbledore's Army"
+    expect(page).to have_content "Event created!"
     expect(page).to_not have_content "launchers who lunch"
-    expect(page).to_not have_content "Event created!"
 
   end
 
@@ -53,11 +58,11 @@ feature "User can add new meetup if signed in" do
 
     visit '/'
     click_on "Create a New Meetup"
-
     fill_in "name", with: "Dumbledore's Army"
     fill_in "description", with: "underground defense against the dark arts"
     fill_in "location", with: "room of requirement"
     click_on "Submit"
+
     expect(page).to have_content("user must be signed in to make a new meetup")
     name_field = find_field('name')
     expect(name_field.value).to eq "Dumbledore's Army"
@@ -87,7 +92,7 @@ feature "User can add new meetup if signed in" do
     fill_in "description", with: ""
     fill_in "location", with: "room of requirement"
     click_on "Submit"
-    expect(page).to have_content("user must fill all fields of form")
+    expect(page).to have_content("description: can't be blank")
     name_field = find_field('name')
     expect(name_field.value).to eq "Dumbledore's Army"
   end
@@ -116,8 +121,9 @@ feature "User can add new meetup if signed in" do
     fill_in "description", with: ""
     fill_in "location", with: "room of requirement"
     click_on "Submit"
+    
     expect(page).to have_content("user must be signed in to make a new meetup")
-    expect(page).to have_content("user must fill all fields of form")
+    expect(page).to have_content("description: can't be blank")
     name_field = find_field('name')
     expect(name_field.value).to eq "Dumbledore's Army"
   end

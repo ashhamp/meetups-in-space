@@ -1,11 +1,9 @@
 <h1>New Meetup Form</h1>
 
 <% if !@errors.empty? %>
-<ul>
-  <%  @errors.each do |error| %>
-    <li><%= error %> </li>
-  <% end %>
-</ul>
+  <p>
+    <%= @errors %>
+  </p>
 <% end %>
 
 <form action="/meetups" method="post">
