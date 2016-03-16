@@ -9,14 +9,14 @@
 <form action="/meetups" method="post">
 
   <label for="name">Name: </label>
-  <input type="text" name="name" value="<%= @new_name %>">
+  <input type="text" name="name" value="<%= @new_name %>" class="form_text">
 
   <label for="name">Description: </label>
-  <input type="text" name="description" value="<%= @new_description %>">
+  <input type="text" name="description" value="<%= @new_description %>" class="form_text">
 
   <label for="location">Location: </label>
-  <input type="text" name="location" value="<%= @new_location %>">
+  <input type="text" name="location" value="<%= @new_location %>" class="form_text">
 
-  <label for="submit">Submit</label>
-  <input type="submit" name="submit" value="Submit">
+  <label for="submit"></label>
+  <input type="submit" name="submit" value="Submit" class="form_text">
 </form>
