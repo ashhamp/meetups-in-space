@@ -92,7 +92,7 @@ feature "User can add new meetup if signed in" do
     fill_in "description", with: ""
     fill_in "location", with: "room of requirement"
     click_on "Submit"
-    expect(page).to have_content("description: can't be blank")
+    expect(page).to have_content("Description can't be blank")
     name_field = find_field('name')
     expect(name_field.value).to eq "Dumbledore's Army"
   end
@@ -121,9 +121,9 @@ feature "User can add new meetup if signed in" do
     fill_in "description", with: ""
     fill_in "location", with: "room of requirement"
     click_on "Submit"
-    
+
     expect(page).to have_content("user must be signed in to make a new meetup")
-    expect(page).to have_content("description: can't be blank")
+    expect(page).to have_content("Description can't be blank")
     name_field = find_field('name')
     expect(name_field.value).to eq "Dumbledore's Army"
   end

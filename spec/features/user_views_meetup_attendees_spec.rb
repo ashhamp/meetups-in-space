@@ -54,5 +54,5 @@ feature "User views a meetups attendees" do
     page.should have_css("img",  "http://orig13.deviantart.net/2e80/f/2011/072/e/8/harry_potter_avatar_by_the_authoress124-d3bjr9y.png")
     page.should have_css("img",  "http://data.whicdn.com/images/3025923/large.jpg")
 
-  end
+    end
   end
